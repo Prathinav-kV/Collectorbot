@@ -3,6 +3,7 @@
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
@@ -60,7 +61,7 @@ def generate_launch_description():
     # Include the MoveIt RViz configuration launch if RViz is to be started
     rviz_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([moveit_config_pkg, '/launch/moveit_rviz.launch.py']),
-        condition=LaunchConfiguration('start_rviz')
+        condition=IfCondition(LaunchConfiguration('start_rviz'))
     )
     ld.add_action(rviz_launch)
 
